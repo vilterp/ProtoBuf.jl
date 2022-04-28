@@ -5,16 +5,18 @@ print_hdr(tname) = println("testing $tname...")
 mutable struct V1
     f1::Int32
     f2::Bool
+    __fill_cache::Union{Nothing,BitArray{2}}
     V1() = (a=new(); clear(a); a)
-    V1(f1,f2) = new(f1,f2)
+    V1(f1,f2) = new(f1,f2,nothing)
 end
 
 mutable struct V2
     f1::Int64
     f2::Bool
     f3::Int64
+    __fill_cache::Union{Nothing,BitArray{2}}
     V2() = (a=new(); clear(a); a)
-    V2(f1,f2,f3) = new(f1,f2,f3)
+    V2(f1,f2,f3) = new(f1,f2,f3,nothing)
 end
 
 function check_samestruct()

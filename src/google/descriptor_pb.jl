@@ -203,6 +203,7 @@ mutable struct FieldDescriptorProto <: ProtoType
     oneof_index::Int32
     json_name::AbstractString
     options::FieldOptions
+    __fill_cache::Union{Nothing,BitArray{2}}
     FieldDescriptorProto(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct FieldDescriptorProto
 const __fnum_FieldDescriptorProto = Int[1,3,4,5,6,2,7,9,10,8]
@@ -212,6 +213,7 @@ mutable struct DescriptorProto_ExtensionRange <: ProtoType
     start::Int32
     _end::Int32
     options::ExtensionRangeOptions
+    __fill_cache::Union{Nothing,BitArray{2}}
     DescriptorProto_ExtensionRange(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct DescriptorProto_ExtensionRange
 
@@ -222,6 +224,7 @@ mutable struct MethodDescriptorProto <: ProtoType
     options::MethodOptions
     client_streaming::Bool
     server_streaming::Bool
+    __fill_cache::Union{Nothing,BitArray{2}}
     MethodDescriptorProto(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct MethodDescriptorProto
 const __val_MethodDescriptorProto = Dict(:client_streaming => false, :server_streaming => false)
@@ -231,12 +234,14 @@ mutable struct EnumValueDescriptorProto <: ProtoType
     name::AbstractString
     number::Int32
     options::EnumValueOptions
+    __fill_cache::Union{Nothing,BitArray{2}}
     EnumValueDescriptorProto(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct EnumValueDescriptorProto
 
 mutable struct EnumDescriptorProto_EnumReservedRange <: ProtoType
     start::Int32
     _end::Int32
+    __fill_cache::Union{Nothing,BitArray{2}}
     EnumDescriptorProto_EnumReservedRange(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct EnumDescriptorProto_EnumReservedRange
 
@@ -246,18 +251,21 @@ mutable struct EnumDescriptorProto <: ProtoType
     options::EnumOptions
     reserved_range::Base.Vector{EnumDescriptorProto_EnumReservedRange}
     reserved_name::Base.Vector{AbstractString}
+    __fill_cache::Union{Nothing,BitArray{2}}
     EnumDescriptorProto(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct EnumDescriptorProto
 
 mutable struct OneofDescriptorProto <: ProtoType
     name::AbstractString
     options::OneofOptions
+    __fill_cache::Union{Nothing,BitArray{2}}
     OneofDescriptorProto(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct OneofDescriptorProto
 
 mutable struct DescriptorProto_ReservedRange <: ProtoType
     start::Int32
     _end::Int32
+    __fill_cache::Union{Nothing,BitArray{2}}
     DescriptorProto_ReservedRange(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct DescriptorProto_ReservedRange
 
@@ -272,6 +280,7 @@ mutable struct DescriptorProto <: ProtoType
     options::MessageOptions
     reserved_range::Base.Vector{DescriptorProto_ReservedRange}
     reserved_name::Base.Vector{AbstractString}
+    __fill_cache::Union{Nothing,BitArray{2}}
     DescriptorProto(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct DescriptorProto
 const __fnum_DescriptorProto = Int[1,2,6,3,4,5,8,7,9,10]
@@ -281,6 +290,7 @@ mutable struct ServiceDescriptorProto <: ProtoType
     name::AbstractString
     method::Base.Vector{MethodDescriptorProto}
     options::ServiceOptions
+    __fill_cache::Union{Nothing,BitArray{2}}
     ServiceDescriptorProto(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct ServiceDescriptorProto
 
@@ -290,6 +300,7 @@ mutable struct SourceCodeInfo_Location <: ProtoType
     leading_comments::AbstractString
     trailing_comments::AbstractString
     leading_detached_comments::Base.Vector{AbstractString}
+    __fill_cache::Union{Nothing,BitArray{2}}
     SourceCodeInfo_Location(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct SourceCodeInfo_Location
 const __fnum_SourceCodeInfo_Location = Int[1,2,3,4,6]
@@ -298,6 +309,7 @@ meta(t::Type{SourceCodeInfo_Location}) = meta(t, ProtoBuf.DEF_REQ, __fnum_Source
 
 mutable struct SourceCodeInfo <: ProtoType
     location::Base.Vector{SourceCodeInfo_Location}
+    __fill_cache::Union{Nothing,BitArray{2}}
     SourceCodeInfo(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct SourceCodeInfo
 
@@ -314,6 +326,7 @@ mutable struct FileDescriptorProto <: ProtoType
     options::FileOptions
     source_code_info::SourceCodeInfo
     syntax::AbstractString
+    __fill_cache::Union{Nothing,BitArray{2}}
     FileDescriptorProto(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct FileDescriptorProto
 const __fnum_FileDescriptorProto = Int[1,2,3,10,11,4,5,6,7,8,9,12]
@@ -321,6 +334,7 @@ meta(t::Type{FileDescriptorProto}) = meta(t, ProtoBuf.DEF_REQ, __fnum_FileDescri
 
 mutable struct FileDescriptorSet <: ProtoType
     file::Base.Vector{FileDescriptorProto}
+    __fill_cache::Union{Nothing,BitArray{2}}
     FileDescriptorSet(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct FileDescriptorSet
 
@@ -329,6 +343,7 @@ mutable struct GeneratedCodeInfo_Annotation <: ProtoType
     source_file::AbstractString
     _begin::Int32
     _end::Int32
+    __fill_cache::Union{Nothing,BitArray{2}}
     GeneratedCodeInfo_Annotation(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct GeneratedCodeInfo_Annotation
 const __pack_GeneratedCodeInfo_Annotation = Symbol[:path]
@@ -336,6 +351,7 @@ meta(t::Type{GeneratedCodeInfo_Annotation}) = meta(t, ProtoBuf.DEF_REQ, ProtoBuf
 
 mutable struct GeneratedCodeInfo <: ProtoType
     annotation::Base.Vector{GeneratedCodeInfo_Annotation}
+    __fill_cache::Union{Nothing,BitArray{2}}
     GeneratedCodeInfo(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct GeneratedCodeInfo
 
