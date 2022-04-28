@@ -484,6 +484,7 @@ end
 
 function readproto(io::IO, obj, meta::ProtoMeta=meta(typeof(obj)))
     @debug("readproto begin: $(typeof(obj))")
+    # println("readproto obj=$obj")
     fillunset(obj)
     fldnums = collect(keys(meta.numdict))
     while !eof(io)

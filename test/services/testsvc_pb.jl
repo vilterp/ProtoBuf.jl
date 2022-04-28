@@ -6,6 +6,8 @@ import Base: hash, isequal, ==
 mutable struct BinaryOpReq <: ProtoType
     i1::Int64
     i2::Int64
+    __fill_cache::Union{Nothing,BitArray{2}}
+
     BinaryOpReq(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #type BinaryOpReq
 hash(v::BinaryOpReq) = ProtoBuf.protohash(v)
@@ -14,6 +16,8 @@ isequal(v1::BinaryOpReq, v2::BinaryOpReq) = ProtoBuf.protoisequal(v1, v2)
 
 mutable struct BinaryOpResp <: ProtoType
     result::Int64
+    __fill_cache::Union{Nothing,BitArray{2}}
+
     BinaryOpResp(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #type BinaryOpResp
 hash(v::BinaryOpResp) = ProtoBuf.protohash(v)
@@ -31,11 +35,15 @@ TestMath(impl::Module) = ProtoService(_TestMath_desc, impl)
 
 mutable struct TestMathStub <: AbstractProtoServiceStub{false}
     impl::ProtoServiceStub
+    __fill_cache::Union{Nothing,BitArray{2}}
+
     TestMathStub(channel::ProtoRpcChannel) = new(ProtoServiceStub(_TestMath_desc, channel))
 end # type TestMathStub
 
 mutable struct TestMathBlockingStub <: AbstractProtoServiceStub{true}
     impl::ProtoServiceBlockingStub
+    __fill_cache::Union{Nothing,BitArray{2}}
+
     TestMathBlockingStub(channel::ProtoRpcChannel) = new(ProtoServiceBlockingStub(_TestMath_desc, channel))
 end # type TestMathBlockingStub
 

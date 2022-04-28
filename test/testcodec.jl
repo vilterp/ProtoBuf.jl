@@ -26,6 +26,7 @@ mutable struct TestStr <: ProtoType
     __fill_cache::Union{Nothing,BitArray{2}}
 
     TestStr(val) = new(val, nothing)
+    TestStr() = new()
 end
 ==(t1::TestStr, t2::TestStr) = (t1.val == t2.val)
 
@@ -353,6 +354,7 @@ function test_nested()
         writeproto(pb, testval, meta)
         readfld2.iVal2 = Int64[]
         readval.fld3 = TestStr[]
+        println("readproto pb=$pb readval=$readval meta=$meta")
         readproto(pb, readval, meta)
 
         assert_equal(testval, readval)
@@ -517,5 +519,3 @@ ProtoBufTestCodec.test_misc()
 GC.gc()
 println("_metacache has $(length(ProtoBuf._metacache)) entries")
 #println(ProtoBuf._metacache)
-println("_fillcache has $(length(ProtoBuf._fillcache)) entries")
-#println(ProtoBuf._fillcache)

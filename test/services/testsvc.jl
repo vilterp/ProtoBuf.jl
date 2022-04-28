@@ -25,6 +25,8 @@ close(channel::TestRpcChannel) = close(channel.sock)
 
 mutable struct SvcHeader <: ProtoType
     method::String
+    __fill_cache::Union{Nothing,BitArray{2}}
+
     SvcHeader() = (o=new(); fillunset(o); o)
 end
 
@@ -90,7 +92,7 @@ function call_method(channel::TestRpcChannel, service::ServiceDescriptor, method
 end
 
 # Test server implementation on the RpcChannel
-# 
+#
 mutable struct TestServer
     srvr::TCPServer
     impl::ProtoService
@@ -181,7 +183,7 @@ function run_client(debug::Bool)
         inp = BinaryOpReq()
         inp.i1 = Int64(rand(Int8))
         inp.i2 = Int64(rand(Int8))
-       
+
         nresults -= 1
         let channel=TestRpcChannel(connect(9999)), stub=TestMathStub(channel), expected=inp.i1+inp.i2
             Add(stub, controller, inp, (out)->chk_results(out, expected, channel))
