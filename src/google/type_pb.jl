@@ -12,6 +12,7 @@ const Syntax = __enum_Syntax()
 mutable struct Option <: ProtoType
     name::AbstractString
     value::_Any
+    __fill_cache::Union{Nothing,BitArray{2}}
     Option(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Option
 
@@ -19,6 +20,7 @@ mutable struct EnumValue <: ProtoType
     name::AbstractString
     number::Int32
     options::Base.Vector{Option}
+    __fill_cache::Union{Nothing,BitArray{2}}
     EnumValue(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct EnumValue
 
@@ -66,6 +68,7 @@ mutable struct Field <: ProtoType
     options::Base.Vector{Option}
     json_name::AbstractString
     default_value::AbstractString
+    __fill_cache::Union{Nothing,BitArray{2}}
     Field(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Field
 const __fnum_Field = Int[1,2,3,4,6,7,8,9,10,11]
@@ -77,6 +80,7 @@ mutable struct _Enum <: ProtoType
     options::Base.Vector{Option}
     source_context::SourceContext
     syntax::Int32
+    __fill_cache::Union{Nothing,BitArray{2}}
     _Enum(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct _Enum
 
@@ -87,6 +91,7 @@ mutable struct _Type <: ProtoType
     options::Base.Vector{Option}
     source_context::SourceContext
     syntax::Int32
+    __fill_cache::Union{Nothing,BitArray{2}}
     _Type(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct _Type
 

@@ -12,7 +12,7 @@ export ProtoServiceException, ProtoRpcChannel, ProtoRpcController, MethodDescrip
        find_method, get_request_type, get_response_type, get_descriptor_for_type, call_method
 
 fld_type(o::T, fld) where {T} = fieldtype(T, fld)
-fld_names(x) = x.name.names
+fld_names(x) = [name for name in x.name.names if name !== :__fill_cache]
 
 include("codec.jl")
 include("svc.jl")

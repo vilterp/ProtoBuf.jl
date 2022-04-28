@@ -11,6 +11,7 @@ const NullValue = __enum_NullValue()
 mutable struct Struct_FieldsEntry <: ProtoType
     key::AbstractString
     value::Base.Any
+    __fill_cache::Union{Nothing,BitArray{2}}
     Struct_FieldsEntry(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Struct_FieldsEntry (mapentry) (has cyclic type dependency)
 const __ftype_Struct_FieldsEntry = Dict(:value => "Value")
@@ -18,6 +19,7 @@ meta(t::Type{Struct_FieldsEntry}) = meta(t, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM,
 
 mutable struct Struct <: ProtoType
     fields::Base.Dict # map entry
+    __fill_cache::Union{Nothing,BitArray{2}}
     Struct(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Struct (has cyclic type dependency)
 const __ftype_Struct = Dict(:fields => "Base.Dict{AbstractString,Value}")
@@ -30,6 +32,7 @@ mutable struct Value <: ProtoType
     bool_value::Bool
     struct_value::Struct
     list_value::Base.Any
+    __fill_cache::Union{Nothing,BitArray{2}}
     Value(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Value (has cyclic type dependency)
 const __ftype_Value = Dict(:list_value => "ListValue")
@@ -39,6 +42,7 @@ meta(t::Type{Value}) = meta(t, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF
 
 mutable struct ListValue <: ProtoType
     values::Base.Vector{Value}
+    __fill_cache::Union{Nothing,BitArray{2}}
     ListValue(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct ListValue (has cyclic type dependency)
 

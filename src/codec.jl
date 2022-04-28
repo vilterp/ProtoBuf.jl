@@ -533,7 +533,6 @@ end
 oiddict() = @static isdefined(Base, :IdDict) ? IdDict() : ObjectIdDict()
 const _metacache = oiddict() # dict of Type => ProtoMeta
 const _mapentry_metacache = oiddict()
-const _fillcache = Dict{UInt,BitArray{2}}()
 
 const DEF_REQ = Symbol[]
 const DEF_FNUM = Int[]
@@ -635,6 +634,7 @@ fillset_default(obj, fld::Symbol) = _fillset(obj, fld, true, true)
 function _fillset(obj, fld::Symbol, val::Bool, isdefault::Bool)
     fill = filled(obj)
     fnames = fld_names(typeof(obj))
+    # println("obj=$obj fld=$fld fnames=$fnames")
     idx = something(findfirst(isequal(fld), fnames))
     fill[1,idx] = val
     (!val || isdefault) && (fill[2,idx] = val)
@@ -643,8 +643,9 @@ function _fillset(obj, fld::Symbol, val::Bool, isdefault::Bool)
 end
 
 function filled(obj)
-    oid = objectid(obj)
-    haskey(_fillcache, oid) && return _fillcache[oid]
+    if isdefined(obj, :__fill_cache) && obj.__fill_cache !== nothing
+        return obj.__fill_cache
+    end
 
     fnames = fld_names(typeof(obj))
     fill = fill!(BitArray(undef, 2, length(fnames)), false)
@@ -656,8 +657,7 @@ function filled(obj)
         end
     end
     if !isimmutable(obj)
-        _fillcache[oid] = fill
-        finalizer(obj->delete!(_fillcache, objectid(obj)), obj)
+        obj.__fill_cache = fill
     end
     fill
 end
@@ -666,6 +666,7 @@ isfilled(obj, fld::Symbol) = _isfilled(obj, fld, false)
 isfilled_default(obj, fld::Symbol) = _isfilled(obj, fld, true)
 function _isfilled(obj, fld::Symbol, isdefault::Bool)
     fnames = fld_names(typeof(obj))
+    # println("_isfilled: fld_names=$fnames fld=$fld")
     idx = something(findfirst(isequal(fld), fnames))
     filled(obj)[isdefault ? 2 : 1, idx]
 end

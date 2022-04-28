@@ -16,10 +16,16 @@ print_hdr(tname) = println("testing $tname...")
 
 mutable struct TestType <: ProtoType
     val::Any
+    __fill_cache::Union{Nothing,BitArray{2}}
+
+    TestType(val) = new(val, nothing)
 end
 
 mutable struct TestStr <: ProtoType
     val::AbstractString
+    __fill_cache::Union{Nothing,BitArray{2}}
+
+    TestStr(val) = new(val, nothing)
 end
 ==(t1::TestStr, t2::TestStr) = (t1.val == t2.val)
 
@@ -27,20 +33,27 @@ mutable struct TestOptional <: ProtoType
     sVal1::TestStr
     sVal2::TestStr
     iVal2::Array{Int64,1}
+    __fill_cache::Union{Nothing,BitArray{2}}
+
+    TestOptional(sVal1, sVal2, iVal2) = new(sVal1, sVal2, iVal2, nothing)
 end
 
 mutable struct TestNested <: ProtoType
     fld1::TestType
     fld2::TestOptional
     fld3::Array{TestStr}
+    __fill_cache::Union{Nothing,BitArray{2}}
+
+    TestNested(fld1, fld2, fld3) = new(fld1, fld2, fld3, nothing)
 end
 
 mutable struct TestDefaults <: ProtoType
     iVal1::Int64
     sVal2::AbstractString
     iVal2::Array{Int64,1}
+    __fill_cache::Union{Nothing,BitArray{2}}
 
-    TestDefaults(f1,f2,f3) = new(f1,f2,f3)
+    TestDefaults(f1,f2,f3) = new(f1, f2, f3, nothing)
     TestDefaults() = new()
 end
 
@@ -48,6 +61,7 @@ mutable struct TestOneofs <: ProtoType
     iVal1::Int64
     iVal2::Int64
     iVal3::Int64
+    __fill_cache::Union{Nothing,BitArray{2}}
 
     TestOneofs() = new()
 end
@@ -56,12 +70,16 @@ mutable struct TestMaps <: ProtoType
     d1::Dict{Int,Int}
     d2::Dict{Int32,String}
     d3::Dict{String,String}
+    __fill_cache::Union{Nothing,BitArray{2}}
+
     TestMaps() = new()
 end
 
 mutable struct TestFilled <: ProtoType
     fld1::TestType
     fld2::TestType
+    __fill_cache::Union{Nothing,BitArray{2}}
+
     TestFilled() = new()
 end
 
@@ -129,9 +147,9 @@ function assert_equal(val1, val2)
     typ1 = typeof(val1)
     typ2 = typeof(val2)
     assert_equal(typ1, typ2)
-   
-    n = fieldnames(typ1)
-    t = typ1.types 
+
+    n = [name for name in fieldnames(typ1) if name != :__fill_cache]
+    t = typ1.types
     for fld in n
         fldfill1 = isfilled(val1, fld)
         fldfill2 = isfilled(val2, fld)
@@ -212,7 +230,7 @@ function test_types()
                 testval.val = convert(typ, @_rand_int(UInt32, 10^9, 0))
                 fldnum = @_rand_int(Int, 100, 1)
                 meta = mk_test_meta(fldnum, ptyp)
-                writeproto(pb, testval, meta) 
+                writeproto(pb, testval, meta)
                 readproto(pb, readval, meta)
                 assert_equal(testval, readval)
             end
@@ -224,7 +242,7 @@ function test_types()
         testval.val = randstring(50)
         fldnum = @_rand_int(Int, 100, 1)
         meta = mk_test_meta(fldnum, :string)
-        writeproto(pb, testval, meta) 
+        writeproto(pb, testval, meta)
         readproto(pb, readval, meta)
         assert_equal(testval, readval)
     end
@@ -242,7 +260,7 @@ function test_repeats()
         fldnum = @_rand_int(Int, 100, 1)
         meta = mk_test_meta(fldnum, :int64)
         meta.ordered[1].occurrence = 2
-        writeproto(pb, testval, meta) 
+        writeproto(pb, testval, meta)
         readproto(pb, readval, meta)
         assert_equal(testval, readval)
     end
@@ -255,19 +273,19 @@ function test_repeats()
         meta = mk_test_meta(fldnum, :int64)
         meta.ordered[1].occurrence = 2
         meta.ordered[1].packed = true
-        writeproto(pb, testval, meta) 
+        writeproto(pb, testval, meta)
         readproto(pb, readval, meta)
         assert_equal(testval, readval)
     end
 
     print_hdr("repeated string")
     for idx in 1:100
-        testval.val = [randstring(5) for i in 1:10] 
+        testval.val = [randstring(5) for i in 1:10]
         readval.val = AbstractString[]
         fldnum = @_rand_int(Int, 100, 1)
         meta = mk_test_meta(fldnum, :string)
         meta.ordered[1].occurrence = 2
-        writeproto(pb, testval, meta) 
+        writeproto(pb, testval, meta)
         readproto(pb, readval, meta)
         assert_equal(testval, readval)
     end

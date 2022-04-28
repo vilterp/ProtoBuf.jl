@@ -8,6 +8,8 @@ print_hdr(tname) = println("testing $tname...")
 mutable struct TestType <: ProtoType
     a::AbstractString
     b::Bool
+    __fill_cache::Union{Nothing,BitArray{2}}
+
     TestType() = (o=new(); fillunset(o); o)
 end #type TestType
 meta(t::Type{TestType}) = meta(t, Symbol[:a], Int[], Dict{Symbol,Any}())

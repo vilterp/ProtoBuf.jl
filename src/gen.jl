@@ -463,6 +463,7 @@ function generate_msgtype(outio::IO, errio::IO, dtype::DescriptorProto, scope::S
             end
         end
     end
+    println(io, "    __fill_cache::Union{Nothing,BitArray{2}}") # TODO: just BitArray{2}
     println(io, "    $(dtypename)(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)")
     println(io, "end #mutable struct $(dtypename)", ismapentry ? " (mapentry)" : "", deferedmode ? " (has cyclic type dependency)" : "")
 

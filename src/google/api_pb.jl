@@ -10,12 +10,14 @@ mutable struct Method <: ProtoType
     response_streaming::Bool
     options::Base.Vector{Option}
     syntax::Int32
+    __fill_cache::Union{Nothing,BitArray{2}}
     Method(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Method
 
 mutable struct Mixin <: ProtoType
     name::AbstractString
     root::AbstractString
+    __fill_cache::Union{Nothing,BitArray{2}}
     Mixin(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Mixin
 
@@ -27,6 +29,7 @@ mutable struct Api <: ProtoType
     source_context::SourceContext
     mixins::Base.Vector{Mixin}
     syntax::Int32
+    __fill_cache::Union{Nothing,BitArray{2}}
     Api(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Api
 

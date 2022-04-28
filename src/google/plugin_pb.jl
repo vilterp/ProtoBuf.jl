@@ -7,6 +7,7 @@ mutable struct Version <: ProtoType
     minor::Int32
     patch::Int32
     suffix::AbstractString
+    __fill_cache::Union{Nothing,BitArray{2}}
     Version(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct Version
 
@@ -15,6 +16,7 @@ mutable struct CodeGeneratorRequest <: ProtoType
     parameter::AbstractString
     proto_file::Base.Vector{ProtoBuf.GoogleProtoBuf.FileDescriptorProto}
     compiler_version::Version
+    __fill_cache::Union{Nothing,BitArray{2}}
     CodeGeneratorRequest(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct CodeGeneratorRequest
 const __fnum_CodeGeneratorRequest = Int[1,2,15,3]
@@ -24,6 +26,7 @@ mutable struct CodeGeneratorResponse_File <: ProtoType
     name::AbstractString
     insertion_point::AbstractString
     content::AbstractString
+    __fill_cache::Union{Nothing,BitArray{2}}
     CodeGeneratorResponse_File(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct CodeGeneratorResponse_File
 const __fnum_CodeGeneratorResponse_File = Int[1,2,15]
@@ -32,6 +35,7 @@ meta(t::Type{CodeGeneratorResponse_File}) = meta(t, ProtoBuf.DEF_REQ, __fnum_Cod
 mutable struct CodeGeneratorResponse <: ProtoType
     error::AbstractString
     file::Base.Vector{CodeGeneratorResponse_File}
+    __fill_cache::Union{Nothing,BitArray{2}}
     CodeGeneratorResponse(; kwargs...) = (o=new(); fillunset(o); isempty(kwargs) || ProtoBuf._protobuild(o, kwargs); o)
 end #mutable struct CodeGeneratorResponse
 const __fnum_CodeGeneratorResponse = Int[1,15]

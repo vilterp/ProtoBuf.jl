@@ -2,7 +2,16 @@
 
 isinitialized(obj::Any) = isfilled(obj)
 
-setproperty!(obj::ProtoType, fld::Symbol, val) = (Core.setfield!(obj, fld, val); fillset(obj, fld); val)
+function setproperty!(obj::ProtoType, fld::Symbol, val)
+    if fld == :__fill_cache
+        # done by `filled`... shouldn't be done by user code...
+        Core.setfield!(obj, fld, val)
+        return
+    end
+    Core.setfield!(obj, fld, val)
+    fillset(obj, fld)
+    val
+end
 @deprecate set_field!(obj::Any, fld::Symbol, val) setproperty!(obj, fld, val)
 
 get_field(obj::Any, fld::Symbol) = isfilled(obj, fld) ? getfield(obj, fld) : error("uninitialized field $fld")
